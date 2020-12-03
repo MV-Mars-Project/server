@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MarsControllerTest {
+class MTTSControllerTest {
 
     @Test
     void getMessageReturnsAWelcomeMessage() {
         // Arrange
-        MarsController sut = new MarsController();
+        MTTSController sut = new MTTSController();
 
         // Act
         String message = sut.getMessage();

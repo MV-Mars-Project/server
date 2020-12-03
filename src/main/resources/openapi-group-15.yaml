@@ -56,6 +56,7 @@ paths:
                 type: string
       tags:
         - test
+
   /api/login: #login or logout
     summary: login/logout
     description: login/logout
@@ -115,7 +116,7 @@ paths:
       operationId: createAccount
       summary: create an account, username is case-insensitive
       tags:
-        - user
+        - account
       requestBody:
         description: provide correct information to create a user.
         required: true
@@ -155,7 +156,7 @@ paths:
       summary: get user information.
       operationId: getAccountInformation
       tags:
-        - user
+        - account
       responses:
         '200':
           description: list of an endpoint given their id
@@ -216,6 +217,7 @@ paths:
           description: Internal error.
       security:
         - Token: [ ]
+
   /api/shareLocation:
     description: Share your location with your friends.
     post:
@@ -283,7 +285,7 @@ paths:
       summary: Change your password.
       operationId: changePassword
       tags:
-        - user
+        - authentication
       requestBody:
         required: true
         content:
@@ -311,6 +313,7 @@ paths:
       summary: Get all your friends.
       tags:
         - friend
+        - user
       responses:
         '200':
           description: OK
@@ -340,6 +343,7 @@ paths:
       summary: Add a new friend.
       tags:
         - friend
+        - user
 
       responses:
         '200':
@@ -442,6 +446,7 @@ paths:
           description: Unexpected error.
       security:
         - Token: [ ]
+
   /api/subscriptionInfo:
     description: collect statistics about your business
     get:
@@ -480,7 +485,7 @@ paths:
     get:
       operationId: 'getEndpoints'
       tags:
-        - Endpoint
+        - endpoint
       responses:
         '200':
           description: list of all endpoints
@@ -580,6 +585,8 @@ paths:
     get:
       summary: Get all deliveries ever made.
       operationId: getDeliveries
+      tags:
+        - delivery
       responses:
         '200':
           description: list of all deliveries.
@@ -588,8 +595,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  deliveryID:
-                    type: int
+                  deliveryId:
+                    type: integer
                   deliveryType:
                     type: string
                     enum: [ small, large ]

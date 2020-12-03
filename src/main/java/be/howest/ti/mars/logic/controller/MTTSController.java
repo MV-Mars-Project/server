@@ -13,7 +13,7 @@ import io.vertx.core.json.JsonObject;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MarsController extends AuthController {
+public class MTTSController extends AuthController {
     private static final String MOTD = "SmellyEllie";
 
     public String getMessage() {

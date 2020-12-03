@@ -1,6 +1,6 @@
 package be.howest.ti.mars.webserver;
 
-import be.howest.ti.mars.logic.controller.MarsController;
+import be.howest.ti.mars.logic.controller.MTTSController;
 import be.howest.ti.mars.logic.controller.accounts.BaseAccount;
 import be.howest.ti.mars.logic.controller.accounts.BusinessAccount;
 import be.howest.ti.mars.logic.controller.accounts.UserAccount;
@@ -27,12 +27,12 @@ class MarsOpenApiBridge {
     private static final Timer timer = new Timer();
     private static final long RESET_PERIOD = 1000L * 60L * 60L * 24L;
     private static Vertx vertx;
-    private final MarsController controller;
+    private final MTTSController controller;
 
 
 
     MarsOpenApiBridge() {
-        this.controller = new MarsController();
+        this.controller = new MTTSController();
     }
 
     public static void setVertx(Vertx vertx) {
