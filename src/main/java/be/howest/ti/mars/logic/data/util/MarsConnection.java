@@ -2,15 +2,19 @@ package be.howest.ti.mars.logic.data.util;
 
 import org.h2.tools.Server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -37,10 +41,6 @@ public class MarsConnection {
         return INSTANCE;
     }
 
-    public void cleanUp() {
-        dbWebConsole.stop();
-    }
-
     public static void configure(String url, String username, String password, int console)
             throws SQLException {
         INSTANCE.username = username;
@@ -49,46 +49,41 @@ public class MarsConnection {
         INSTANCE.dbWebConsole = Server.createWebServer(
                 "-ifNotExists",
                 "-webPort", String.valueOf(console)).start();
-        try {
-            initDatabase();
-
-        } catch (SQLException | IOException ex) {
-            logger.log(Level.WARNING, ex.getMessage(), ex);
-        }
-
-        try {
-            addEndpointsDB();
-        } catch (SQLException | IOException ex) {
-            logger.log(Level.WARNING, ex.getMessage(), ex);
-
-        }
+        initDatabase();
+        addEndpointsDB();
     }
-
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(INSTANCE.url, INSTANCE.username, INSTANCE.password);
     }
 
-    private static void executeScript(String filename) throws IOException, SQLException {
-        String createDbSql = readFile(filename);
+    private static void executeScript(String filename) {
         try (
                 Connection connection = getConnection();
-                PreparedStatement stmt = connection.prepareStatement(createDbSql)
+                PreparedStatement stmt = connection.prepareStatement(readFile(filename))
         ) {
             stmt.executeUpdate();
+        } catch (SQLException | IOException ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
     }
 
-    private static String readFile(String filename) throws IOException {
-        Path file = Path.of(filename);
-        return Files.readString(file);
+    private static String readFile(String fileName) throws IOException {
+        try (InputStream resource = MarsConnection.class.getClassLoader().getResourceAsStream(fileName)) {
+            if (resource == null) throw new NoSuchFileException("can't find file: " + fileName);
+            return new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8)).lines().map(str -> str + "\n").collect(Collectors.joining());
+        }
     }
 
-    private static void initDatabase() throws SQLException, IOException {
-        executeScript("src/main/resources/h2/setupDB.sql");
+    private static void initDatabase() {
+        executeScript("h2/setupDB.sql");
     }
 
-    private static void addEndpointsDB() throws IOException, SQLException {
-        executeScript("src/main/resources/h2/initEndpointsDB.sql");
+    private static void addEndpointsDB() {
+        executeScript("h2/initEndpointsDB.sql");
+    }
+
+    public void cleanUp() {
+        dbWebConsole.stop();
     }
 }
