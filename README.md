@@ -2,7 +2,7 @@
 
 ###### This is the server of the Martian Travel Tube System
 
-[Back to documentation repo](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-15/documentation)
+[Back to documentation repo](https://github.com/MV-Mars-Project/documentation)
 
 ## Table of Contents
 
@@ -54,7 +54,7 @@ The following scripts will run automatically when deploying the server:
 
 ## API
 
-We use an openAPI version(3.0.0). We use [this openAPI](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-15/server/-/blob/master/src/main/resources/openapi-group-15.yaml) to establish communication between the server and our client.
+We use an openAPI version(3.0.0). We use [this openAPI](https://github.com/MV-Mars-Project/server/blob/master/src/main/resources/openapi-group-15.yaml) to establish communication between the server and our client.
 
 ### Using the API
 
