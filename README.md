@@ -7,7 +7,7 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Getting Started](#Getting Started)
+- [Getting Started](#getting%20Started)
 - [Usage](#Usage)
 - [Features](#features)
 - [API](#API)
